@@ -24,9 +24,9 @@ Otherwise, it will return the set value.
 {{- if .Values.postgresql.enabled -}}
 {{ $name := default "postgresql" .Values.postgresql.nameOverride -}}
 {{ $pgHost := printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- printf "postgres://%s:%s@%s/%s?sslmode=disable" .Values.postgresql.postgresUser .Values.postgresql.postgresPassword $pgHost .Values.postgresql.postgresDatabase | b64enc | quote -}}
+{{- printf "postgres://%s:%s@%s/%s?sslmode=disable" .Values.postgresql.postgresUser .Values.postgresql.postgresPassword $pgHost .Values.postgresql.postgresDatabase | b64enc -}}
 {{- else -}}
-{{- .Values.config.hydra.databaseURL | b64enc | quote -}}
+{{- .Values.config.hydra.databaseURL | b64enc -}}
 {{- end -}}
 {{- end -}}
 

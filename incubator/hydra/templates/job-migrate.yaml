@@ -1,7 +1,8 @@
+{{- if or .Release.IsInstall (and .Release.IsUpgrade .Values.migrateSQL) -}}
 apiVersion: "batch/v1"
 kind: "Job"
 metadata:
-  name: "{{ template "hydra.fullname" . }}-migrate"
+  name: "{{ template "hydra.fullname" . }}-migrate-{{ .Release.Revision }}"
   labels:
     app: "{{ template "hydra.fullname" . }}"
   annotations:
@@ -14,13 +15,16 @@ metadata:
     "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   backoffLimit: 3
-  activeDeadlineSeconds: 90
+  activeDeadlineSeconds: 120
   template:
     spec:
       initContainers:
-      - name: "init-postgres"
-        image: "busybox"
-        command: ["sh", "-c", "until nslookup {{ template "hydra.postgresql.fullname" . }}; do sleep 2; done; sleep 5;"]
+      - name: "wait-postgresql"
+        image: "postgres:{{ .Values.postgresql.imageTag }}"
+        command:
+        - "sh"
+        - "-c"
+        - "until (exec pg_isready -d {{ include "hydra.databaseURL" . | b64dec }}) 2>&1; do sleep 2; done;"
       containers:
       - name: "hydra-migrate"
         image: {{ printf "%s:%s" .Values.image .Values.imageTag | quote }}
@@ -31,3 +35,4 @@ spec:
             name: {{ template "hydra.fullname" . }}
             optional: false
       restartPolicy: "Never"
+{{- end -}}
