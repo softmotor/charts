@@ -88,8 +88,6 @@ postgresql:
   enabled: true
 
   imageTag: "10.1-alpine"
-  cpu: "250m"
-  memory: "256Mi"
 
   postgresUser: "hydra"
   # Important: change this when deploying in production.

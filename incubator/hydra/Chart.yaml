@@ -2,7 +2,7 @@ apiVersion: "v1"
 appVersion: "v0.11.6"
 description: "A security-first open source OAuth2 and OpenID Connect server for existing and new enterprise infrastructures."
 name: "hydra"
-version: "0.0.12"
+version: "0.0.13"
 keywords:
 - "hydra"
 - "authentication"
