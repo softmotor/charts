@@ -129,10 +129,13 @@ ingress:
 postgresql:
   postgresDatabase: sentry
   postgresUser: sentry
-  imageTag: "9.5"
+  imageTag: "9.6"
   persistence:
     enabled: true
 
 redis:
-  persistence:
-    enabled: true
+  cluster:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
