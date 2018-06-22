@@ -36,6 +36,9 @@ spec:
           mountPath: /var/lib/kapacitor
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+      {{- if .Values.schedulerName }}
+      schedulerName: "{{ .Values.schedulerName }}"
+      {{- end }}
       volumes:
         - name: data
         {{- if .Values.persistence.enabled }}

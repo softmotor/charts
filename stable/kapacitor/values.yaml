@@ -56,3 +56,8 @@ resources:
 ## ref: https://docs.influxdata.com/kapacitor/v1.1/introduction/getting_started/
 ##
 # influxURL: http://influxdb-influxdb.tick:8086
+
+## Use an alternate scheduler, e.g. "stork".
+## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+##
+# schedulerName:
