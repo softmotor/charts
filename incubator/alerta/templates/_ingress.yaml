@@ -1,0 +1,27 @@
+{{- define "alerta.ingress.tpl" -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+{{ template "alerta.metadata" . }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{ include "alerta.annote" .Values.ingress.annotations | indent 4 }}
+  {{- end }}
+spec:
+  rules:
+  {{- range $host := .Values.ingress.hosts }}
+  - host: {{ $host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "alerta.fullname" $ }}
+          servicePort: 80
+  {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{ toYaml .Values.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}
+{{- define "alerta.ingress" -}}
+{{- template "alerta.util.merge" (append . "alerta.ingress.tpl") -}}
+{{- end -}}

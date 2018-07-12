@@ -1,0 +1,62 @@
+config:
+  debug:  false
+  baseUrl: "/api"
+  customerViews: false
+  enablePlugins:
+    - "reject"
+    - "blackout"
+    - "normalise"
+    - "enhance"
+  installPlugins:
+    - "reject"
+    - "blackout"
+    - "normalise"
+    - "enhance"
+  # adminUsers:
+  #  - "admin@example.com"
+  # adminPassword: "changeme"
+  # adminKey: "12345"
+  # secretKey: ""
+  authRequired: false
+  ## Configure github settings
+  # github:
+  #   url: ""
+  #   orgs: ""
+  # gitlab:
+  #   url: ""
+  #   groups: ""
+  database:
+    setupPostresql: true
+    setupMongodb: false
+    url:
+    # Override the database name in the connection string
+    name:
+  # smtp:
+  #   from: ""
+  #   password: ""
+  # oauth2:
+  #   clientId: ""
+  #   clientSecret: ""
+  #   allowedEmailDomains: ""
+  # keycloak:
+  #   url: ""
+  #   realm: ""
+  #   allowedRoles: ""
+  #   corsOrigins: ""
+image:
+  repository: "alerta/alerta-web"
+  tag: "5.2.5"
+  pullPolicy: "IfNotPresent"
+
+ingress:
+  enable: false
+  annotations: {}
+  path: "/"
+
+replicaCount: 1
+
+service:
+  type: "ClusterIP"
+  port: 80
+
+resources: {}

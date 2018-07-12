@@ -1,0 +1,9 @@
+{{- define "alerta.configmap.tpl" -}}
+apiVersion: v1
+kind: ConfigMap
+{{ template "alerta.metadata" . }}
+data: {}
+{{- end -}}
+{{- define "alerta.configmap" -}}
+{{- template "alerta.util.merge" (append . "alerta.configmap.tpl") -}}
+{{- end -}}

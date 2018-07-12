@@ -1,0 +1,12 @@
+{{- define "alerta.container.tpl" -}}
+name: {{ .Chart.Name }}
+image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+imagePullPolicy: {{ .Values.image.pullPolicy }}
+resources:
+{{ toYaml .Values.resources | indent 2 }}
+{{- end -}}
+{{- define "alerta.container" -}}
+{{- /* clear new line so indentation works correctly */ -}}
+{{- println "" -}}
+{{- include "alerta.util.merge" (append . "alerta.container.tpl") | indent 8 -}}
+{{- end -}}
