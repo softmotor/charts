@@ -27,24 +27,24 @@ readinessProbe:
   successThreshold: 1
   failureThreshold: 3
 env:
-  {{ if .Values.database.config.setupPostresql }}
+  {{ if .Values.config.database.setupPostgresql }}
   # XXX
-  - {{ template "alerta.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
-  {{ else if .Values.database.config.setupMongodb }}
+  - {{ template "common.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
+  {{ else if .Values.config.database.setupMongodb }}
   # XXX
-  - {{ template "alerta.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
+  - {{ template "common.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
   {{ else }}
-  - {{ template "alerta.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
+  - {{ template "common.envvar.value" (list "DATABASE_URL" .Values.config.database.url) }}
   {{ end }}
-  {{ if .Values.database.name }}
-  - {{ template "alerta.envvar.value" (list "DATABASE_NAME" .Values.config.database.name) }}
+  {{ if .Values.config.database.name }}
+  - {{ template "common.envvar.value" (list "DATABASE_NAME" .Values.config.database.name) }}
   {{ end }}
-  - {{ template "alerta.envvar.value" (list "BASE_URL" .Values.config.baseUrl) }}
-  - {{ template "alerta.envvar.value" (list "DEBUG" .Values.config.debug) }}
-  - {{ template "alerta.envvar.value" (list "AUTH_REQUIRED" .Values.config.authRequired) }}
-  - {{ template "alerta.envvar.value" (list "CUSTOMER_VIEWS" .Values.config.customerViews) }}
-  - {{ template "alerta.envvar.value" (list "PLUGINS" .Values.config.customerViews) }}
-  - {{ template "alerta.envvar.secret" (list "SECRET_KEY" (template "common.fullname" .) "SecretKey") }}
+  - {{ template "common.envvar.value" (list "BASE_URL" .Values.config.baseUrl) }}
+  - {{ template "common.envvar.value" (list "DEBUG" .Values.config.debug) }}
+  - {{ template "common.envvar.value" (list "AUTH_REQUIRED" .Values.config.authRequired) }}
+  - {{ template "common.envvar.value" (list "CUSTOMER_VIEWS" .Values.config.customerViews) }}
+  - {{ template "common.envvar.value" (list "PLUGINS" .Values.config.customerViews) }}
+  - {{ template "common.envvar.secret" (list "SECRET_KEY" (include "common.fullname" .) "SecretKey") }}
   - key: "PLUGINS"
     value: {{ range $index, $plugin := .Values.config.enablePlugins }}{{- if $index}},{{- end }}{{ $plugin }}{{- end }}
   - key: "INSTALL_PLUGINS"
@@ -53,31 +53,31 @@ env:
   - key: "adminUsers"
     value: {{ range $index, $user := .Values.config.adminUsers }}{{- if $index}},{{- end }}{{ $user }}{{- end }}
   {{ end }}
-  - {{ template "alerta.envvar.secret" (list "ADMIN_KEY" (template "common.fullname" .) "adminKey") }}
-  - {{ template "alerta.envvar.secret" (list "ADMIN_PASSWORD" (template "common.fullname" .) "adminPassword") }}
+  - {{ template "common.envvar.secret" (list "ADMIN_KEY" (include "common.fullname" .) "adminKey") }}
+  - {{ template "common.envvar.secret" (list "ADMIN_PASSWORD" (include "common.fullname" .) "adminPassword") }}
   {{ if .Values.config.oauth2 }}
-  - {{ template "alerta.envvar.value" (list "OAUTH2_CLIENT_ID" .Values.config.oauth2.clientId) }}
-  - {{ template "alerta.envvar.secret" (list "OAUTH2_CLIENT_SECRET" (template "common.fullname" .) "oauth2ClientSecret") }}
+  - {{ template "common.envvar.value" (list "OAUTH2_CLIENT_ID" .Values.config.oauth2.clientId) }}
+  - {{ template "common.envvar.secret" (list "OAUTH2_CLIENT_SECRET" (include "common.fullname" .) "oauth2ClientSecret") }}
   {{ if .Values.config.oauth2.allowedEmailDomains }}
-  - {{ template "alerta.envvar.value" (list "ALLOWED_EMAIL_DOMAINS" .Values.config.oauth2.allowedEmailDomains) }}
+  - {{ template "common.envvar.value" (list "ALLOWED_EMAIL_DOMAINS" .Values.config.oauth2.allowedEmailDomains) }}
   {{ end }}
   {{ end }}
   {{ if .Values.config.smtp }}
-  - {{ template "alerta.envvar.value" (list "MAIL_FROM" .Values.config.smtp.from) }}
-  - {{ template "alerta.envvar.secret" (list "SMTP_PASSWORD" (template "common.fullname" .) "smtpPassword") }}
+  - {{ template "common.envvar.value" (list "MAIL_FROM" .Values.config.smtp.from) }}
+  - {{ template "common.envvar.secret" (list "SMTP_PASSWORD" (include "common.fullname" .) "smtpPassword") }}
   {{ end }}
   {{ if .Values.config.keycloak }}
-    - {{ template "alerta.envvar.value" (list "KEYCLOAK_URL" .Values.config.keycloak.url) }}
-    - {{ template "alerta.envvar.value" (list "KEYCLOAK_REALM" .Values.config.keycloak.realm) }}
-    - {{ template "alerta.envvar.value" (list "ALLOWED_KEYCLOAK_ROLES" .Values.config.keycloak.allowedRoles) }}
-    - {{ template "alerta.envvar.value" (list "CORS_ORIGINS" .Values.config.keycloak.corsOrigins) }}
+    - {{ template "common.envvar.value" (list "KEYCLOAK_URL" .Values.config.keycloak.url) }}
+    - {{ template "common.envvar.value" (list "KEYCLOAK_REALM" .Values.config.keycloak.realm) }}
+    - {{ template "common.envvar.value" (list "ALLOWED_KEYCLOAK_ROLES" .Values.config.keycloak.allowedRoles) }}
+    - {{ template "common.envvar.value" (list "CORS_ORIGINS" .Values.config.keycloak.corsOrigins) }}
   {{ end }}
   {{ if .Values.config.github }}
-    - {{ template "alerta.envvar.value" (list "GITHUB_URL" .Values.config.github.url) }}
-    - {{ template "alerta.envvar.value" (list "ALLOWED_GITHUB_ORGS" .Values.config.github.orgs) }}
+    - {{ template "common.envvar.value" (list "GITHUB_URL" .Values.config.github.url) }}
+    - {{ template "common.envvar.value" (list "ALLOWED_GITHUB_ORGS" .Values.config.github.orgs) }}
   {{ end }}
   {{ if .Values.config.gitlab }}
-    - {{ template "alerta.envvar.value" (list "GITLAB_URL" .Values.config.gitlab.url) }}
-    - {{ template "alerta.envvar.value" (list "ALLOWED_GITLAB_GROUPS" .Values.config.gitlab.groups) }}
+    - {{ template "common.envvar.value" (list "GITLAB_URL" .Values.config.gitlab.url) }}
+    - {{ template "common.envvar.value" (list "ALLOWED_GITLAB_GROUPS" .Values.config.gitlab.groups) }}
   {{ end }}
 {{- end }}

@@ -26,7 +26,7 @@ config:
   #   url: ""
   #   groups: ""
   database:
-    setupPostresql: true
+    setupPostgresql: true
     setupMongodb: false
     url:
     # Override the database name in the connection string
@@ -43,6 +43,7 @@ config:
   #   realm: ""
   #   allowedRoles: ""
   #   corsOrigins: ""
+
 image:
   repository: "alerta/alerta-web"
   tag: "5.2.5"
@@ -51,11 +52,10 @@ image:
 ingress:
   enabled: false
   annotations: {}
-  path: "/"
 
 replicaCount: 1
 
+resources: {}
+
 service:
   type: "ClusterIP"
-
-resources: {}

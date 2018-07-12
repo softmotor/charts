@@ -1,5 +1,5 @@
 {{- template "common.service" (list . "alerta.web.service") -}}
-{{- define "mychart.web.service" -}}
+{{- define "alerta.web.service" -}}
 spec:
   ports:
     - name: http
