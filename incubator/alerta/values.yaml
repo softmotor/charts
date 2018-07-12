@@ -26,8 +26,6 @@ config:
   #   url: ""
   #   groups: ""
   database:
-    setupPostgresql: true
-    setupMongodb: false
     url:
     # Override the database name in the connection string
     name:
@@ -52,6 +50,20 @@ image:
 ingress:
   enabled: false
   annotations: {}
+
+mongodb:
+  enabled: false
+  mongodbUsername: "alerta"
+  mongodbDatabase: "alerta"
+  persistence:
+    enabled: true
+
+postresql:
+  enabled: false
+  postgresDatabase: "alerta"
+  postgresUser: "alerta"
+  persistence:
+    enabled: true
 
 replicaCount: 1
 
