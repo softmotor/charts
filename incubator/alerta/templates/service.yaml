@@ -1,0 +1,8 @@
+{{- template "common.service" (list . "alerta.web.service") -}}
+{{- define "mychart.web.service" -}}
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+{{- end }}

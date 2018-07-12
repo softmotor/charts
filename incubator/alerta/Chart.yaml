@@ -1,11 +1,12 @@
 apiVersion: v1
-description: Common chartbuilding components and helpers
+description: Alert aggregation and management service
 name: alerta
-version: 0.0.3
-appVersion: 0.0.3
-home: https://helm.sh
+version: 0.0.1
+appVersion: 5.2.5
+home: http://alerta.io/
+sources:
+- https://github.com/alerta/alerta
+- https://github.com/alerta/docker-alerta
 maintainers:
-- name: technosophos
-  email: technosophos@gmail.com
-- name: prydonius
-  email: adnan@bitnami.com
+- name: knorby
+  email: kali.norby@softwaremotor.com

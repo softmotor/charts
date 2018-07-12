@@ -1,0 +1,5 @@
+{{ if .Values.ingress.enabled }}
+{{- template "common.ingress" (list . "alerta.ingress") -}}
+{{- define "alerta.ingress" -}}
+{{- end -}}
+{{ end }}

@@ -1,0 +1,12 @@
+dependencies:
+- name: common
+  repository: https://kubernetes-charts-incubator.storage.googleapis.com/
+  version: 0.0.3
+- name: postgresql
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.15.0
+- name: mongodb
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 3.0.4
+digest: sha256:6caf33a0453f649a368f4aaa54f8eb316b1295a1394843cd403812c0ab71924e
+generated: 2018-07-12T12:55:58.046785-07:00

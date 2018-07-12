@@ -1,0 +1,12 @@
+dependencies:
+- name: "common"
+  version: "0.0.3"
+  repository: "https://kubernetes-charts-incubator.storage.googleapis.com/"
+- name: "postgresql"
+  version: "0.15.0"
+  repository: "https://kubernetes-charts.storage.googleapis.com/"
+  condition: "alerta.config.database.setupPostresql"
+- name: "mongodb"
+  version: "3.0.4"
+  repository: "https://kubernetes-charts.storage.googleapis.com/"
+  condition: "alerta.config.database.setupMongodb"
