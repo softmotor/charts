@@ -7,6 +7,10 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if .Values.deployment.annotations }}
+  annotations:
+{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -41,10 +45,23 @@ spec:
               value: "{{ .Values.service.port }}"
             - name: MSSQL_BACKUP_DIR
               value: "/mssql-backup/backup"
+            - name: MSSQL_COLLATION
+              value: "{{ .Values.collation }}"
+            - name: MSSQL_LCID
+              value: "{{ .Values.lcid }}"
             - name: MSSQL_MASTER_DATA_FILE
               value: /mssql-data/master/master.mdf
             - name: MSSQL_MASTER_LOG_FILE
               value: /mssql-data/master/mastlog.ldf
+            - name: MSSQL_ENABLE_HADR
+              value: "{{ .Values.hadr }}"
+            {{ if .Values.resources.limits.memory }}
+            - name: MSSQL_MEMORY_LIMIT_MB
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.memory
+                  divisor: 1Mi
+            {{ end }}
           ports:
             - name: mssql
               containerPort: {{ .Values.service.port }}
@@ -88,8 +105,8 @@ spec:
       - name: transactionlog
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          {{- if .Values.persistence.existingLogClaim }}
-          claimName: {{ .Values.persistence.existingLogClaim }}
+          {{- if .Values.persistence.existingTransactionLogClaim }}
+          claimName: {{ .Values.persistence.existingTransactionLogClaim }}
           {{- else }}
           claimName: {{ template "mssql.fullname" . }}-translog
           {{- end }}
